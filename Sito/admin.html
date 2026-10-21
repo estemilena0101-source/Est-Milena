@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Gestionale – Estè</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+body{background:var(--cipria);min-height:100vh}
+.hidden{display:none!important}
+/* login */
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--grad-soft);position:relative;overflow:hidden;padding:20px}
+.login-card{position:relative;z-index:2;background:#fff;border-radius:var(--r);padding:46px 40px;width:min(430px,100%);box-shadow:var(--ombra);text-align:center}
+.login-card .logo{font-size:2.6rem;display:inline-block;margin-bottom:6px}
+.login-card p{font-size:.9rem;margin-bottom:26px;color:#9a6b86}
+.login-card .field{text-align:left}
+.err{color:#d6196e;font-size:.85rem;min-height:22px;margin-bottom:8px}
+/* topbar */
+.top{background:#fff;box-shadow:0 6px 30px rgba(214,25,110,.1);position:sticky;top:0;z-index:50}
+.top .in{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;flex-wrap:wrap}
+.top .logo{font-size:1.7rem}
+.top .acts{display:flex;gap:10px;align-items:center}
+.wrap{padding:36px 0 80px}
+h2.t{font-size:2rem;margin-bottom:6px}
+.sub{color:#9a6b86;margin-bottom:28px}
+/* stats */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:30px}
+.kpi{background:#fff;border-radius:20px;padding:22px 24px;border:1px solid var(--rosa-chiaro);box-shadow:0 8px 28px rgba(214,25,110,.07)}
+.kpi small{color:#9a6b86;font-weight:500}
+.kpi b{display:block;font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--fucsia);line-height:1.2}
+.kpi.stato b{font-size:1.3rem}
+/* panels */
+.panel{background:#fff;border-radius:var(--r);padding:32px;border:1px solid var(--rosa-chiaro);box-shadow:0 10px 40px rgba(214,25,110,.08)}
+.panel h3{font-size:1.5rem;margin-bottom:6px}
+.bk{display:grid;grid-template-columns:150px 1fr auto;gap:18px;align-items:center;padding:18px 20px;border:1px solid var(--rosa-chiaro);border-radius:18px;margin-bottom:12px;background:var(--cipria);transition:.25s}
+.bk:hover{border-color:var(--fucsia);background:#fff}
+.bk .when b{display:block;font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--prugna)}
+.bk .when small{color:#9a6b86}
+.bk .who b{color:var(--prugna)}
+.bk .who small{display:block;color:#7b5a6d}
+.pill{display:inline-block;padding:3px 12px;border-radius:50px;font-size:.75rem;font-weight:600;margin-left:8px}
+.pill.attesa{background:#fff0c9;color:#9a6b00}
+.pill.confermata{background:#d7f5e5;color:#157a47}
+.pill.annullata{background:#ffe0e8;color:#b0123f}
+.mini{padding:8px 16px;border-radius:50px;border:2px solid var(--rosa-chiaro);background:#fff;font-family:inherit;font-weight:600;font-size:.8rem;cursor:pointer;color:var(--prugna);transition:.2s}
+.mini:hover{border-color:var(--fucsia);color:var(--fucsia)}
+.mini.ok2{background:var(--grad);color:#fff;border-color:transparent}
+.mini.ko{color:#b0123f}
+.bk .ac{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.empty{text-align:center;padding:50px 10px;color:#9a6b86}
+.empty .big{font-size:3rem}
+/* orari */
+.day{display:grid;grid-template-columns:140px 70px 1fr;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--rosa-chiaro)}
+.day:last-child{border:0}
+.day strong{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--prugna)}
+.rng{display:flex;gap:18px;flex-wrap:wrap}
+.rng div{display:flex;gap:6px;align-items:center}
+.rng input{width:auto;padding:9px 10px}
+.sw{position:relative;width:54px;height:30px}
+.sw input{opacity:0;width:0;height:0}
+.sw span{position:absolute;inset:0;background:#e6c9d8;border-radius:50px;cursor:pointer;transition:.3s}
+.sw span::before{content:"";position:absolute;width:22px;height:22px;left:4px;top:4px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.sw input:checked+span{background:var(--grad)}
+.sw input:checked+span::before{transform:translateX(24px)}
+.closed-txt{color:#9a6b86;font-style:italic}
+/* ferie */
+.cl{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 20px;border:1px solid var(--rosa-chiaro);border-radius:18px;margin-bottom:10px;background:var(--cipria)}
+.cl b{color:var(--prugna)}
+.cl small{display:block;color:#7b5a6d}
+.cl.past{opacity:.55}
+.warn{color:#b0123f;font-weight:600}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 22px}
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,100px);background:var(--prugna);color:#fff;padding:14px 28px;border-radius:50px;box-shadow:0 12px 34px rgba(0,0,0,.3);transition:.4s;z-index:300;font-weight:500}
+.toast.show{transform:translate(-50%,0)}
+.note-box{background:var(--cipria);border:1px dashed var(--rosa);border-radius:16px;padding:16px 20px;font-size:.88rem;margin-top:22px}
+@media(max-width:800px){
+  .bk{grid-template-columns:1fr}.bk .ac{justify-content:flex-start}
+  .day{grid-template-columns:1fr auto}.day .rng{grid-column:1/-1}
+  .panel{padding:22px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- GESTIONALE -->
+<div id="appView" class="hidden">
+  <div class="top"><div class="container in">
+    <a href="index.html" class="logo">Estè<span>Gestionale</span></a>
+    <div class="acts">
+      <a href="index.html" class="mini">Vedi sito</a>
+      <span class="mini" id="who" style="cursor:default"></span>
+      <button class="mini ko" id="out">Esci</button>
+    </div>
+  </div></div>
+
+  <div class="container wrap">
+    <h2 class="t">Ciao 👋</h2>
+    <p class="sub">Gestisci prenotazioni, orari e chiusure del centro.</p>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-v="v1">📅 Prenotazioni</button>
+      <button class="tab" data-v="v2">🕒 Orari</button>
+      <button class="tab" data-v="v3">🌴 Ferie &amp; chiusure</button>
+      <button class="tab" data-v="v4">⚙️ Impostazioni</button>
+    </div>
+
+    <!-- prenotazioni -->
+    <div class="panel view" id="v1">
+      <h3>Prenotazioni</h3>
+      <div class="toolbar" id="flt"></div>
+      <div id="bkList"></div>
+    </div>
+
+    <!-- orari -->
+    <div class="panel view hidden" id="v2">
+      <h3>Orari di apertura</h3>
+      <p class="sub" style="margin-bottom:10px">Attiva i giorni di apertura e imposta le fasce (mattina e pomeriggio). Lascia vuota la seconda fascia se fai orario continuato.</p>
+      <div id="days"></div>
+      <div class="field" style="max-width:300px;margin-top:22px">
+        <label>Intervallo tra gli appuntamenti</label>
+        <select id="step"><option value="15">Ogni 15 minuti</option><option value="30">Ogni 30 minuti</option><option value="60">Ogni ora</option></select>
+      </div>
+      <button class="btn" id="saveHours">Salva orari</button>
+    </div>
+
+    <!-- ferie -->
+    <div class="panel view hidden" id="v3">
+      <h3>Ferie &amp; chiusure straordinarie</h3>
+      <p class="sub" style="margin-bottom:20px">Nei giorni indicati il sito non permette di prenotare e mostra il motivo ai clienti.</p>
+      <form id="clForm">
+        <div class="row">
+          <div class="field"><label>Tipo</label><select id="ctipo"><option>Ferie</option><option>Chiusura</option><option>Festività</option><option>Malattia</option></select></div>
+          <div class="field"><label>Motivo (visibile ai clienti, facoltativo)</label><input id="cmot" placeholder="Es. Chiuso per ferie estive"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label>Dal</label><input type="date" id="cfrom" required></div>
+          <div class="field"><label>Al (vuoto = solo quel giorno)</label><input type="date" id="cto"></div>
+        </div>
+        <button class="btn">Aggiungi chiusura</button>
+      </form>
+      <h3 style="margin:34px 0 14px;font-size:1.25rem">Chiusure programmate</h3>
+      <div id="clList"></div>
+    </div>
+
+    <!-- impostazioni -->
+    <div class="panel view hidden" id="v4">
+      <h3>Impostazioni</h3>
+      <p class="sub" style="margin-bottom:20px">Sicurezza e backup dei dati.</p>
+      <form id="pwForm" style="max-width:420px">
+        <div class="field"><label>Nuova password (min. 6 caratteri)</label><input type="password" id="np" minlength="6" required></div>
+        <div class="field"><label>Ripeti password</label><input type="password" id="np2" minlength="6" required></div>
+        <button class="btn sm">Cambia password</button>
+      </form>
+      <h3 style="margin:34px 0 10px;font-size:1.25rem">Backup</h3>
+      <div class="toolbar">
+        <button class="mini ok2" id="exp">⬇ Esporta dati</button>
+        <label class="mini" style="margin:0">⬆ Importa dati<input type="file" id="imp" accept=".json" class="hidden"></label>
+      </div>
+      <div class="note-box">
+        <b>Nota:</b> i dati sono salvati nel browser di questo dispositivo. Se apri il gestionale da un altro computer o telefono vedrai dati diversi.
+        Per sincronizzare prenotazioni, orari e ferie su tutti i dispositivi serve collegare un database online.
+        Fai spesso il backup con "Esporta dati".
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

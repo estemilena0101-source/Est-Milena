@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contatti – Estè Centro Estetico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page-head">
+  <div class="container">
+    <span class="tag" style="background:#fff">Contatti</span>
+    <h1>Parliamo <em>insieme</em></h1>
+    <p>Scrivici per informazioni, preventivi o dubbi: siamo felici di aiutarti.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container form-wrap">
+    <div class="info-box reveal">
+      <h3>Dove trovarci</h3>
+      <ul>
+        <li>📍 Indirizzo: da inserire</li>
+        <li>📞 Telefono: da inserire</li>
+        <li>✉️ Email: da inserire</li>
+      </ul>
+      <h3 style="margin-top:30px">Social</h3>
+      <ul>
+        <li>📸 <a href="https://www.instagram.com/estemelinaconforto/?hl=en" target="_blank" rel="noopener"><u>Instagram</u></a></li>
+        <li>👍 <a href="https://www.facebook.com/estemelinaconforto/?ref=NONE_xav_ig_profile_page_web#" target="_blank" rel="noopener"><u>Facebook</u></a></li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <form id="bookForm">
+        <div class="row">
+          <div class="field"><label>Nome</label><input name="nome" required></div>
+          <div class="field"><label>Email</label><input name="email" type="email" required></div>
+        </div>
+        <div class="field"><label>Messaggio</label><textarea name="msg" required placeholder="Come possiamo aiutarti?"></textarea></div>
+        <button class="btn" type="submit" style="width:100%">Invia messaggio</button>
+      </form>
+      <div class="ok" id="ok">
+        <div class="big">💌</div>
+        <h3>Grazie <span id="okName"></span>!</h3>
+        <p>Il tuo messaggio è stato inviato. Ti risponderemo al più presto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
