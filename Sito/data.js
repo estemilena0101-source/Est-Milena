@@ -171,9 +171,9 @@ function makeSupa(){
     async signIn(id,pw){
       const isAdm=isAdminName(id);
       const {data,error}=await sb.auth.signInWithPassword({email:isAdm?adminEmail(id):id.trim().toLowerCase(),password:pw});
-      if(error)return{error:'Credenziali errate'};
+      if(error)return{error:/confirm/i.test(error.message)?'Email non ancora confermata: in Supabase apri Users e conferma questo utente':(/invalid login/i.test(error.message)?'Credenziali errate (email o password non corrispondono a un account Supabase)':'Errore di accesso: '+error.message)};
       const p=await profile(data.user);
-      if(isAdm&&p.role!=='admin'){await sb.auth.signOut();return{error:'Credenziali errate'}}
+      if(isAdm&&p.role!=='admin'){await sb.auth.signOut();return{error:'Password corretta, ma questo account non è ancora admin: esegui in Supabase la riga SQL update profiles set role = admin'}}
       U.setNav({name:p.role==='admin'?p.name:p.name.split(' ')[0],role:p.role});
       return{role:p.role};
     },
