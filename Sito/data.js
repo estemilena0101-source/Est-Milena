@@ -117,14 +117,15 @@ function makeSupa(){
   const toBk=r=>({id:r.id,userId:r.user_id,nome:r.nome,tel:r.tel,email:r.email,note:r.note,servizi:r.servizi,min:r.min,prezzo:r.prezzo,data:r.data,ora:r.ora,stato:r.stato});
   const toCl=r=>({id:r.id,tipo:r.tipo,motivo:r.motivo||'',from:r.from_date,to:r.to_date||''});
   const err=e=>e?{error:e.message}:{};
-  const ADMIN_RE=/^admin\d+$/i;            // Admin1, Admin2, Admin3 → admin1@example.com ...
-  const adminEmail=n=>n.trim().toLowerCase()+'@example.com';
+  const ADMIN_RE=/^admin\d+$/i;            // Admin1, Admin2, Admin3 → indirizzo da ESTE_ADMIN_EMAIL (config.js)
+  const adminEmail=n=>(window.ESTE_ADMIN_EMAIL||'{n}@example.com').replace('{n}',n.trim().toLowerCase());
 
   async function profile(user){
     const {data}=await sb.from('profiles').select('nome,tel,email,role').eq('id',user.id).maybeSingle();
     const email=(data&&data.email)||user.email;
     const role=data&&data.role==='admin'?'admin':'cliente';
-    const name=role==='admin'?email.split('@')[0].replace(/^./,c=>c.toUpperCase()):((data&&data.nome)||email);
+    const am=email.match(/admin\d+/i);
+    const name=role==='admin'?(am?am[0].replace(/^./,c=>c.toUpperCase()):email.split('@')[0]):((data&&data.nome)||email);
     return{role,id:user.id,name,email,tel:data&&data.tel||''};
   }
   return{

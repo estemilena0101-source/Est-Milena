@@ -85,6 +85,6 @@ create policy "prenotazioni: annullo le mie" on bookings for update
 create policy "prenotazioni: admin gestisce" on bookings for all using (is_admin()) with check (is_admin());
 
 -- ====== DA ESEGUIRE DOPO aver creato i 3 utenti in Authentication > Users ======
--- (admin1@example.com, admin2@example.com, admin3@example.com, password este2026, Auto Confirm)
+-- (estemilena0101+admin1@gmail.com, estemilena0101+admin2@gmail.com, estemilena0101+admin3@gmail.com, password este2026, Auto Confirm)
 -- update profiles set role = 'admin'
--- where email in ('admin1@example.com','admin2@example.com','admin3@example.com');
+-- where email in ('estemilena0101+admin1@gmail.com','estemilena0101+admin2@gmail.com','estemilena0101+admin3@gmail.com');
